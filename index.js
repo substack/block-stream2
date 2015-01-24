@@ -5,13 +5,16 @@ var defined = require('defined');
 module.exports = Block;
 inherits(Block, Transform);
 
-function Block (opts) {
-    if (!(this instanceof Block)) return new Block(opts);
+function Block (size, opts) {
+    if (!(this instanceof Block)) return new Block(size, opts);
     Transform.call(this);
     if (!opts) opts = {};
-    if (typeof opts === 'number') opts = { size: opts }
-    if (typeof opts === 'string') opts = { size: Number(opts) }
-    this.size = opts.size || 512;
+    if (typeof size === 'object') {
+        opts = size;
+        size = opts.size;
+    }
+    this.size = size || 512;
+    
     if (opts.nopad) this._zeroPadding = false;
     else this._zeroPadding = defined(opts.zeroPadding, true);
     
