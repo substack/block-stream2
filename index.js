@@ -1,5 +1,6 @@
 var inherits = require('inherits');
 var Transform = require('readable-stream').Transform;
+var defined = require('defined');
 
 module.exports = Block;
 inherits(Block, Transform);
@@ -11,7 +12,8 @@ function Block (opts) {
     if (typeof opts === 'number') opts = { size: opts }
     if (typeof opts === 'string') opts = { size: Number(opts) }
     this.size = opts.size || 512;
-    this._zeroPadding = Boolean(opts.zeroPadding);
+    if (opts.nopad) this._zeroPadding = false;
+    else this._zeroPadding = defined(opts.zeroPadding, true);
     
     this._buffered = [];
     this._bufferedBytes = 0;
