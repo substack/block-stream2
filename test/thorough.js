@@ -3,12 +3,12 @@ var BlockStream = require("../")
 var blockSizes = [16]//, 25]//, 1024]
   , writeSizes = [4, 15, 16, 17, 64 ]//, 64, 100]
   , writeCounts = [1, 10]//, 100]
-  , tap = require("tap")
+  , test = require('tape')
 
 writeCounts.forEach(function (writeCount) {
 blockSizes.forEach(function (blockSize) {
 writeSizes.forEach(function (writeSize) {
-  tap.test("writeSize=" + writeSize +
+  test("writeSize=" + writeSize +
            " blockSize="+blockSize +
            " writeCount="+writeCount, function (t) {
     var f = new BlockStream(blockSize)
