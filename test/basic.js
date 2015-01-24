@@ -1,11 +1,12 @@
-var tap = require("tap")
+var test = require('tape')
   , BlockStream = require("../")
 
-tap.test("basic test", function (t) {
+test("basic test", function (t) {
   var b = new BlockStream(16)
   var fs = require("fs")
   var fstr = fs.createReadStream(__filename, {encoding: "utf8"})
   fstr.pipe(b)
+  b.resume();
 
   var stat
   t.doesNotThrow(function () {
@@ -15,7 +16,7 @@ tap.test("basic test", function (t) {
   var totalBytes = 0
   b.on("data", function (c) {
     t.equal(c.length, 16, "chunks should be 16 bytes long")
-    t.type(c, Buffer, "chunks should be buffer objects")
+    t.ok(Buffer.isBuffer(c), "chunks should be buffer objects")
     totalBytes += c.length
   })
   b.on("end", function () {
