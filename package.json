@@ -4,9 +4,9 @@
   "description": "transform input into equally-sized blocks of output",
   "main": "index.js",
   "dependencies": {
-    "defined": "~0.0.0",
+    "defined": "^1.0.0",
     "inherits": "^2.0.1",
-    "readable-stream": "^1.0.33"
+    "readable-stream": "^2.0.2"
   },
   "devDependencies": {
     "tape": "^3.0.3"
