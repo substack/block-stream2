@@ -1,57 +1,56 @@
-var BlockStream = require("../")
-var tap = { test: require("tape") }
+const BlockStream = require('../')
+const test = require('tape')
 
-
-tap.test("don't pad, small writes", function (t) {
-  var f = new BlockStream(16, { nopad: true })
+test("don't pad, small writes", t => {
+  const f = new BlockStream(16, { nopad: true })
   t.plan(1)
 
-  f.on("data", function (c) {
-    t.equal(c.toString(), "abc", "should get 'abc'")
+  f.on('data', c => {
+    t.equal(c.toString(), 'abc', "should get 'abc'")
   })
 
-  f.on("end", function () { t.end() })
+  f.on('end', () => { t.end() })
 
-  f.write(new Buffer("a"))
-  f.write(new Buffer("b"))
-  f.write(new Buffer("c"))
+  f.write(Buffer.from('a'))
+  f.write(Buffer.from('b'))
+  f.write(Buffer.from('c'))
   f.end()
 })
 
-tap.test("don't pad, exact write", function (t) {
-  var f = new BlockStream(16, { nopad: true })
+test("don't pad, exact write", t => {
+  const f = new BlockStream(16, { nopad: true })
   t.plan(1)
 
-  var first = true
-  f.on("data", function (c) {
+  let first = true
+  f.on('data', c => {
     if (first) {
       first = false
-      t.equal(c.toString(), "abcdefghijklmnop", "first chunk")
+      t.equal(c.toString(), 'abcdefghijklmnop', 'first chunk')
     } else {
-      t.fail("should only get one")
+      t.fail('should only get one')
     }
   })
 
-  f.on("end", function () { t.end() })
+  f.on('end', () => { t.end() })
 
-  f.end(new Buffer("abcdefghijklmnop"))
+  f.end(Buffer.from('abcdefghijklmnop'))
 })
 
-tap.test("don't pad, big write", function (t) {
-  var f = new BlockStream(16, { nopad: true })
+test("don't pad, big write", t => {
+  const f = new BlockStream(16, { nopad: true })
   t.plan(2)
 
-  var first = true
-  f.on("data", function (c) {
+  let first = true
+  f.on('data', c => {
     if (first) {
       first = false
-      t.equal(c.toString(), "abcdefghijklmnop", "first chunk")
+      t.equal(c.toString(), 'abcdefghijklmnop', 'first chunk')
     } else {
-      t.equal(c.toString(), "q")
+      t.equal(c.toString(), 'q')
     }
   })
 
-  f.on("end", function () { t.end() })
+  f.on('end', () => { t.end() })
 
-  f.end(new Buffer("abcdefghijklmnopq"))
+  f.end(Buffer.from('abcdefghijklmnopq'))
 })
