@@ -2,7 +2,7 @@
 
 transform input into equally-sized chunks as output
 
-streams2 version of
+streams3 version of
 [block-stream](https://npmjs.org/package/block-stream)
 
 [![build status](https://secure.travis-ci.org/substack/block-stream2.png)](http://travis-ci.org/substack/block-stream2)

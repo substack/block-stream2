@@ -22,7 +22,8 @@
     "block",
     "chunk",
     "size",
-    "streams2"
+    "streams2",
+    "streams3"
   ],
   "author": {
     "name": "James Halliday",
