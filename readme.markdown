@@ -10,11 +10,11 @@ streams3 version of
 # example
 
 ``` js
-const block = require('block-stream2');
+const BlockStream = require('block-stream2');
 const through = require('through2');
 
 process.stdin
-    .pipe(block({ size: 16, zeroPadding: true }))
+    .pipe(new BlockStream({ size: 16, zeroPadding: true }))
     .pipe(through((buf, enc, next) => {
         const str = buf.toString().replace(/[\x00-\x1f]/g, chr);
         console.log(`buf[${buf.length}]=${str}`);
@@ -44,11 +44,11 @@ buf[16]=fur\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
 # methods
 
 ``` js
-const block = require('block-stream2');
+const BlockStream = require('block-stream2');
 ```
 
-## const b = block(opts)
-## const b = block(size, opts)
+## const b = new BlockStream(opts)
+## const b = new BlockStream(size, opts)
 
 Create a new transform stream `b` that outputs chunks of length `size` or
 `opts.size`.

@@ -1,8 +1,8 @@
 const through = require('through2')
-const block = require('../')
+const BlockStream = require('../')
 
 process.stdin
-  .pipe(block({ size: 16, zeroPadding: true }))
+  .pipe(new BlockStream({ size: 16, zeroPadding: true }))
   .pipe(through((buf, enc, next) => {
     const str = buf.toString().replace(/[\x00-\x1f]/g, chr)
     console.log(`buf[${buf.length}]=${str}`)
