@@ -2,7 +2,7 @@ const { Transform } = require('readable-stream')
 
 class Block extends Transform {
   constructor (size, opts = {}) {
-    super()
+    super(opts)
 
     if (typeof size === 'object') {
       opts = size
