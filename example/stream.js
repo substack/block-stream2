@@ -4,6 +4,7 @@ const BlockStream = require('../')
 process.stdin
   .pipe(new BlockStream({ size: 16, zeroPadding: true }))
   .pipe(through((buf, enc, next) => {
+    // eslint-disable-next-line no-control-regex
     const str = buf.toString().replace(/[\x00-\x1f]/g, chr)
     console.log(`buf[${buf.length}]=${str}`)
     next()

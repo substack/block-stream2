@@ -7,10 +7,11 @@
     "readable-stream": "^3.4.0"
   },
   "devDependencies": {
+    "standard": "^16.0.3",
     "tape": "^4.2.2"
   },
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "standard && tape test/*.js"
   },
   "repository": {
     "type": "git",
