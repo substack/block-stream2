@@ -25,10 +25,29 @@ class Block extends Transform {
     this._buffered.push(buf)
 
     while (this._bufferedBytes >= this.size) {
-      const b = Buffer.concat(this._buffered)
       this._bufferedBytes -= this.size
-      this.push(b.slice(0, this.size))
-      this._buffered = [ b.slice(this.size, b.length) ]
+
+      // Assemble the buffers that will compose the final block
+      const blockBufs = []
+      let blockBufsBytes = 0
+      while (blockBufsBytes < this.size) {
+        const b = this._buffered.shift()
+
+        if (blockBufsBytes + b.length <= this.size) {
+          blockBufs.push(b)
+          blockBufsBytes += b.length
+        } else {
+          // If the last buffer is larger than needed for the block, just
+          // use the needed part
+          const neededSize = this.size - blockBufsBytes
+          blockBufs.push(b.slice(0, neededSize))
+          blockBufsBytes += neededSize
+          this._buffered.unshift(b.slice(neededSize))
+        }
+      }
+
+      // Then concat just those buffers, leaving the rest untouched in _buffered
+      this.push(Buffer.concat(blockBufs, this.size))
     }
     next()
   }
